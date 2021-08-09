@@ -1,7 +1,11 @@
 const express = require('express');
-const routes = require('./routes');
 const path = require('path');
 const bodyParser = require('body-parser');
+
+const routes = require('./routes');
+
+//helpers con algunos funciones
+const helpers = require('./helpers');
 
 //crear la conexion a la bd
 const db = require('./config/db');
@@ -24,6 +28,12 @@ app.set('view engine', 'pug');
 
 //vistas
 app.set('views', path.join(__dirname, './views'));
+
+//pasar var dump a la aplicacion
+app.use((req, res, next)=>{
+    res.locals.vardump = helpers.vardump;
+    next();
+})
 
 //habilitar bodyParser
 app.use(bodyParser.urlencoded({extended: true}));
