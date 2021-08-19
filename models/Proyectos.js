@@ -9,11 +9,16 @@ const Proyectos = db.define('proyectos',{
         primaryKey: true,
         autoIncrement: true
     },
-    nombre: Sequelize.STRING,
-    url : Sequelize.STRING
+    nombre: Sequelize.STRING(100),
+    url : Sequelize.STRING(100)
 },{
     hooks:{
         beforeCreate(proyecto){
+            const url = slug(proyecto.nombre).toLowerCase();
+
+            proyecto.url = `${url}-${shortid.generate()}`
+        },
+        beforeUpdate(proyecto){
             const url = slug(proyecto.nombre).toLowerCase();
 
             proyecto.url = `${url}-${shortid.generate()}`

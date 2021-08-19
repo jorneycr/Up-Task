@@ -50,21 +50,89 @@ exports.nuevoProyecto = async (req, res) => {
 }
 
 exports.proyectoPorUrl = async (req, res) => {
-    const proyectos = await Proyectos.findAll();
+    const proyectosPromise = Proyectos.findAll();
 
-    const proyecto = await Proyectos.findOne({
-        where:{
+    const proyectoPromise = Proyectos.findOne({
+        where: {
             url: req.params.url
         }
     });
 
+    const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+
     if (!proyecto) return next();
 
     //render a la vista
-    res.render('tareas',{
+    res.render('tareas', {
         nombrePagina: 'Tareas del Proyecto',
         proyecto,
         proyectos
     })
 
+}
+
+exports.formularioEditar = async (req, res) => {
+
+    const proyectosPromise = Proyectos.findAll();
+
+    const proyectoPromise = Proyectos.findOne({
+        where: {
+            id: req.params.id
+        }
+    });
+
+    const [proyectos, proyecto] = await Promise.all([proyectosPromise, proyectoPromise]);
+
+    //render a la  vista
+    res.render('nuevoProyecto', {
+        nombrePagina: 'Editar Proyecto',
+        proyecto, proyectos
+    })
+}
+
+exports.actualizarProyecto = async (req, res) => {
+    const proyectos = await Proyectos.findAll();
+
+    // res.send('Enviaste un Formulario')
+    // console.log(req.body );
+
+    //validar que exista la informacion
+    const { nombre } = req.body;
+
+    let errores = [];
+
+    if (!nombre) {
+        errores.push({ 'texto': 'Agrega un Nombre al Proyecto' })
+    }
+
+    if (errores.length > 0) {
+        res.render('nuevoProyecto', {
+            nombrePagina: 'Nuevo Proyecto',
+            errores,
+            proyectos
+        })
+    } else {
+        //no hay errores
+        //insertar en la bd
+
+        await Proyectos.update(
+            { nombre: nombre },
+            { where: { id: req.params.id }} 
+        );
+        res.redirect('/');
+    }
+
+}
+
+
+exports.eliminarProyecto = async (req, res, next) => {
+    const {urlProyecto} = req.query;
+
+    const resultado = await Proyectos.destroy({where:{url: urlProyecto}})
+
+    if(!resultado){
+        return next();
+    }
+
+    res.status(200).send('Proyecto Eliminado Correctamente');
 }
