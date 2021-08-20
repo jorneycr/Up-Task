@@ -32,7 +32,9 @@ module.exports = function () {
 
 
     //tareas
-    router.post('/proyectos/:url', tareasController.agregarTarea)
+    router.post('/proyectos/:url', tareasController.agregarTarea);
+
+    router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
 
 
     return router;
