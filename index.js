@@ -13,6 +13,7 @@ const db = require('./config/db');
 //importar
 require('./models/Proyectos');
 require('./models/Tareas');
+require('./models/Usuarios');
 
 db.sync()
     .then(() => console.log('Conectando al servidor'))
