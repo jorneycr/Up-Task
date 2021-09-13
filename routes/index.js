@@ -38,10 +38,11 @@ module.exports = function () {
     //eliminar tarea
     router.patch('/tareas/:id', tareasController.cambiarEstadoTarea);
     //elimina tarea
-    router.delete('/tareas/:id', tareasController.eliminarTarea)
+    router.delete('/tareas/:id', tareasController.eliminarTarea);
 
     //crear nueva cuenta
-    router.get('/crear-cuenta',usuariosController.formCrearCuenta)
+    router.get('/crear-cuenta',usuariosController.formCrearCuenta);
+    router.post('/crear-cuenta', usuariosController.crearCuenta);
 
 
     return router;

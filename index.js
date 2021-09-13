@@ -1,8 +1,9 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-
 const routes = require('./routes');
+// const expressValidator = require('express-validator');
+const flash = require('connect-flash');
 
 //helpers con algunos funciones
 const helpers = require('./helpers');
@@ -22,6 +23,12 @@ db.sync()
 //app de express
 const app = express();
 
+//habilitar bodyParser
+app.use(bodyParser.urlencoded({extended: true}));
+
+//agregamos express validartor para usar en todo la aplicacion
+// app.use(expressValidator);
+
 //cargar archivos estaticos o publicos
 app.use(express.static('public'));
 
@@ -36,9 +43,6 @@ app.use((req, res, next)=>{
     res.locals.vardump = helpers.vardump;
     next();
 })
-
-//habilitar bodyParser
-app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/', routes());
 
