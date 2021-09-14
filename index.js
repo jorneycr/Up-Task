@@ -38,6 +38,9 @@ app.set('view engine', 'pug');
 //vistas
 app.set('views', path.join(__dirname, './views'));
 
+//agregar flash messages
+app.use(flash());
+
 //pasar var dump a la aplicacion
 app.use((req, res, next)=>{
     res.locals.vardump = helpers.vardump;
