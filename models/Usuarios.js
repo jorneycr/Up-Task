@@ -13,7 +13,7 @@ const Usuarios = db.define('usuarios', {
         type: Sequelize.STRING(60),
         allowNull: false,
         validate:{
-            idEmail:{
+            isEmail:{
                 msg: 'Agrega un correo valido.'
             },
             notEmpty:{
@@ -22,7 +22,7 @@ const Usuarios = db.define('usuarios', {
         },
         unique:{
             args: true,
-            msg: 'Usuario Ya resgistrado'
+            msg: 'Usuario Ya registrado'
         }
     },
     password:{
