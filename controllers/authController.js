@@ -1,9 +1,9 @@
 const passport = require('passport');
 
-exports.autenticarUsuario = passport.authenticate('local',{
+exports.autenticarUsuario = passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect:'/iniciar-sesion',
-    failureFlash:true,
+    failureRedirect: '/iniciar-sesion',
+    failureFlash: true,
     badRequestMessage: 'Ambos campos son Obligatorios'
 });
 
@@ -11,7 +11,7 @@ exports.autenticarUsuario = passport.authenticate('local',{
 exports.usuarioAutenticado = (req, res, next) => {
 
     //si el usuario esta autentificado, adelante
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         return next();
     }
     //sino esta autentificado, redirigir al formulario
@@ -19,8 +19,13 @@ exports.usuarioAutenticado = (req, res, next) => {
 }
 
 //cierra la session
-exports.cerrarSesion = (req, res) =>{
-    req.session.destroy(()=>{
+exports.cerrarSesion = (req, res) => {
+    req.session.destroy(() => {
         res.redirect('/iniciar-sesion');
     })
+}
+
+//crear token si el usuario es valido
+exports.enviarToken = async (req, res) => {
+
 }
