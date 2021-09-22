@@ -42,8 +42,8 @@ module.exports = function () {
     router.delete('/tareas/:id', authController.usuarioAutenticado, tareasController.eliminarTarea);
 
     //crear nueva cuenta
-    router.get('/crear-cuenta',  usuariosController.formCrearCuenta);
-    router.post('/crear-cuenta',  usuariosController.crearCuenta);
+    router.get('/crear-cuenta', usuariosController.formCrearCuenta);
+    router.post('/crear-cuenta', usuariosController.crearCuenta);
 
     //iniciar sesion
     router.get('/iniciar-sesion', usuariosController.formIniciarSesion)
@@ -54,7 +54,7 @@ module.exports = function () {
 
     //reestablecer contraseña
     router.get('/restablecer', usuariosController.formRestablecerPassword);
-    router.post('/restablecer', authController.enviarToken );
+    router.post('/restablecer', authController.enviarToken);
 
     return router;
 }
