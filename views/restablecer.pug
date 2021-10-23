@@ -5,7 +5,7 @@ html(lang="en")
     body.login
         .contenedor-formulario
             h1= nombrePagina
-            p Agrega tu e-mail para restabglecer la contraseña
+            p Agrega tu e-mail para restablecer la contraseña
             if locals.mensajes 
                 .alertas 
                     each categoria in Object.keys(locals.mensajes)
