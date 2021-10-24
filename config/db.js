@@ -1,18 +1,23 @@
 const Sequelize = require('sequelize');
-const db = new Sequelize('uptasknode','root','root',{
-    host: 'localhost',
-    dialect: 'mysql',
-    port: '3306',
-    operatorsAlises: false,
-    define:{
-        timestamps: false
-    },
-    pool: {
-        max:5,
-        min:0,
-        acquire:30000,
-        idle:1000
-    }
-});
+require('dotenv').config({ path: 'variables.env' })
 
- module.exports = db;
+const db = new Sequelize(
+    process.env.BD_NOMBRE,
+    process.env.BD_USER,
+    process.env.BD_PASS,
+    {
+        host: process.env.BD_HOST,
+        dialect: 'mysql',
+        port: process.env.BD_PORT,
+        define: {
+            timestamps: false
+        },
+        pool: {
+            max: 5,
+            min: 0,
+            acquire: 30000,
+            idle: 1000
+        }
+    });
+
+module.exports = db;
