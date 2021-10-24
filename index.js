@@ -82,7 +82,7 @@ app.use('/', routes() );
 // Servidor y Puerto
 
 const port = process.env.PORT || 3000;
-const host = '0.0.0.0'
+const host = '0.0.0.0';
 
 app.listen(port, host, ()=> console.log(`server is running on port ${port}`));
 
