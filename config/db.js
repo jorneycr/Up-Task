@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 //Extraer valores de variables.env
-require('dotenv').config({ path: 'variables.env'});
+require('dotenv').config({ path: 'local.env'});
 
 // Option 1: Passing parameters separately
 const db = new Sequelize(
