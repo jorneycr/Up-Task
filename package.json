@@ -5,10 +5,15 @@
   "main": "index.js",
   "scripts": {
     "desarrollo": "concurrently \"npm run dev\" \"npm run watch\"",
+    "postinstall": "npm run build",
     "start": "node ./index.js",
     "dev": "nodemon ./index.js",
     "watch": "webpack -w --mode development"
   },
+  "engines": {
+    "node": ">=14.0.O", 
+    "npm": ">=7.7.0" 
+ },
   "author": "Jorney Lopez",
   "license": "ISC",
   "dependencies": {

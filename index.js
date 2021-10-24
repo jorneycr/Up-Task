@@ -80,13 +80,12 @@ app.use((req, res, next) => {
 app.use('/', routes() );
 
 // Servidor y Puerto
-const host = process.env.HOST || '0.0.0.0';
-const port = process.env.PORT || 3000;
 
-app.listen(port, host, () =>{
-    console.log('El servidor esta Listo');
-    
-})
+const port = process.env.PORT || 3000;
+const host = '0.0.0.0'
+
+app.listen(port, host, ()=> console.log(`server is running on port ${port}`));
+
 
 
 // require('./handlers/email');// Manda llamar al mail
