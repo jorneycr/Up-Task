@@ -1,77 +1,92 @@
-const express = require('express');
+// import express from 'express';// Esta no la soporta NODE 
+const express= require('express');
+const routes = require('./routes');
 const path = require('path');
 const bodyParser = require('body-parser');
-const routes = require('./routes');
-// const expressValidator = require('express-validator');
+const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
+// const session = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const passport = require('./config/passport');
-require('dotenv').config({ path: 'variables.env' })
+//importar las variables
+require('dotenv').config({ path: 'variables.env'});
 
-//helpers con algunos funciones
-const helpers = require('./helpers');
+const helpers = require('./helpers');// Helpers con algunas funciones
 
-//crear la conexion a la bd
+// Crear la conexion la DB
 const db = require('./config/db');
-
-//importar
 require('./models/Proyectos');
 require('./models/Tareas');
 require('./models/Usuarios');
-
 db.sync()
-    .then(() => console.log('Conectando al servidor'))
-    .catch(error => console.log(error));
-
-//app de express
+    .then(() => console.log('Conectado al Servidor'))
+    .catch(error => console.log(error))
+    
+// Crear un aplicacion express
 const app = express();
 
-
-//cargar archivos estaticos o publicos
+//Donde cargar los archivos Estaticos
 app.use(express.static('public'));
 
-// habilitar pug
+// Habilitar PUG
 app.set('view engine', 'pug');
 
-//habilitar bodyParser
-app.use(bodyParser.urlencoded({ extended: true }));
+// Habilitar Body-Parser para leer datos del formulario
+app.use(bodyParser.urlencoded({extended: true}));
 
-//agregamos express validartor para usar en todo la aplicacion
-// app.use(expressValidator);
+// ***Agregamos express validator a toda la aplicación
+// app.use(expressValidator());
 
-//vistas
+
+// Añadir carpeta de las vistas
 app.set('views', path.join(__dirname, './views'));
 
-//agregar flash messages
+//Agregar Flash Messages
 app.use(flash());
 
+//Agregar Cookie-Parser
 app.use(cookieParser());
 
-//sessiones nos permiten navegar entre diferentes paginas
+// Agregar Sessiones: Nos ayuda a ir entre las distintas paginas sin necesidad de volver a autenticar
 app.use(session({
-    secret: 'supersecreto',
+    secret: 'supersecreto',// Firma el cookie
     resave: false,
     saveUninitialized: false
 }));
 
+
+// Agregamos Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-//pasar var dump a la aplicacion
+//pasar vardump a la APP
 app.use((req, res, next) => {
+    // console.log(req.user);
     res.locals.vardump = helpers.vardump;
     res.locals.mensajes = req.flash();
     res.locals.usuario = {...req.user} || null;
     next();
-})
+});
 
-app.use('/', routes());
+// Primer Middleware
+app.use((req, res, next) => {
+    const fecha = new Date();    
+    res.locals.year = fecha.getFullYear();
+    next();
+});
 
-//servidor y puerto
+//Habilitar Rutas
+app.use('/', routes() );
+
+// Servidor y Puerto
 const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT || 3000;
 
-app.listen(port, host, ()=>{
-    console.log("El servidor esta funcionando");
-});
+app.listen(port, host, () =>{
+    console.log('El servidor esta Listo');
+    
+})
+
+
+// require('./handlers/email');// Manda llamar al mail
